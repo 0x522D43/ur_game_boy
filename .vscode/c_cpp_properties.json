@@ -1,0 +1,15 @@
+{
+    "configurations": [
+        {
+            "name": "Linux-DevContainer",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/opt/gbdk/**"
+            ],
+            "defines": [],
+            "compilerPath": "/opt/gbdk/bin/lcc",
+            "cStandard": "c23"
+        }
+    ],
+    "version": 4
+}

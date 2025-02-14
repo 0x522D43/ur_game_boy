@@ -1,0 +1,18 @@
+FROM alpine AS GBDK
+RUN wget -O gbdk.tar.gz https://github.com/gbdk-2020/gbdk-2020/releases/download/gbdk-next/gbdk-linux64.tar.gz
+RUN tar -xf gbdk.tar.gz
+
+FROM alpine AS Gearboy
+RUN wget -O gearboy.zip https://github.com/drhelius/Gearboy/releases/download/3.6.1/Gearboy-3.6.1-ubuntu-22.04.zip 
+RUN unzip gearboy.zip
+
+FROM mcr.microsoft.com/devcontainers/base:debian
+ENV GBDKDIR=/opt/gbdk/
+COPY --from=GBDK /gbdk ${GBDKDIR}
+ENV PATH=${PATH}:${GBDKDIR}/bin
+
+RUN sudo apt update
+RUN sudo apt-get -y install libgtk-3-dev libglew-dev libsdl2-dev
+COPY --from=Gearboy /gearboy /opt/gearboy
+RUN chmod +x /opt/gearboy
+ENV PATH=${PATH}:/opt

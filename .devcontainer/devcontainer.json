@@ -1,0 +1,25 @@
+{
+    "name": "gbdk",
+    //"image": "mcr.microsoft.com/devcontainers/base:alpine",
+    "build": {
+        // Path is relative to the devcontainer.json file.
+        "dockerfile": "dockerfile"
+    },
+    "containerEnv": {
+        "XDG_RUNTIME_DIR": "/tmp",
+        "WAYLAND_DISPLAY": "${localEnv:WAYLAND_DISPLAY}"
+    },
+    "mounts": [
+        "source=${localEnv:XDG_RUNTIME_DIR}/${localEnv:WAYLAND_DISPLAY},target=/tmp/${localEnv:WAYLAND_DISPLAY},type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools-themes",
+                "ms-azuretools.vscode-docker",
+                "ms-vscode.makefile-tools",
+                "ms-vscode.cpptools-extension-pack"
+            ]
+        }
+    }
+}

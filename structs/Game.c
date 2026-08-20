@@ -42,6 +42,11 @@ void draw_tokens_on_board(struct Game *game)
         {
             move_token_on_board(token, player);
         }
+        else
+        {
+            hide_sprite(token->tiles_index[0]);
+            hide_sprite(token->tiles_index[1]);
+        }
     }
 }
 
@@ -88,23 +93,26 @@ void get_movement_per_token(struct Game *game, uint8_t available_movements[NB_TO
         if (target_token_position > 15)
             continue;
         bool position_not_taken = true;
-        for (uint8_t board_token_index = 0; board_token_index < NB_TOKEN_PER_PLAYER; board_token_index++)
+        if (target_token_position != 15)
         {
-            struct Token checked_token = player_tokens[board_token_index];
-            if (token_index == board_token_index)
-                continue;
-            if (target_token_position == checked_token.position)
+            for (uint8_t board_token_index = 0; board_token_index < NB_TOKEN_PER_PLAYER; board_token_index++)
             {
-                position_not_taken = false;
-                break;
-            };
-            checked_token = opponant_tokens[board_token_index];
-            if (target_token_position > 4 &&
-                target_token_position < 13 &&
-                target_token_position == checked_token.position)
-            {
-                position_not_taken = target_token_position != 8;
-                break;
+                struct Token checked_token = player_tokens[board_token_index];
+                if (token_index == board_token_index)
+                    continue;
+                if (target_token_position == checked_token.position)
+                {
+                    position_not_taken = false;
+                    break;
+                };
+                checked_token = opponant_tokens[board_token_index];
+                if (target_token_position > 4 &&
+                    target_token_position < 13 &&
+                    target_token_position == checked_token.position)
+                {
+                    position_not_taken = target_token_position != 8;
+                    break;
+                }
             }
         }
         if (position_not_taken)

@@ -55,7 +55,7 @@ void display_game_over(bool player)
     }
     else
     {
-        set_bkg_data(background_next_postion, ur_tile_token_p1_TILE_COUNT, ur_tile_token_p1_tiles);
+        set_bkg_data(background_next_postion, ur_tile_token_p2_TILE_COUNT, ur_tile_token_p1_tiles);
     }
 
     for (uint8_t i = 0; i < 20; i += 2)
@@ -132,8 +132,9 @@ void pause_game(uint8_t *joy_input)
     DISPLAY_ON;
 }
 
-void turn(struct Game *game)
+uint8_t turn(struct Game *game)
 {
+    uint8_t played_action = 0;
     bool is_rolling_dice = true;
     bool is_showing_skip = false;
     uint8_t nb_dice_roll = 0;
@@ -161,13 +162,13 @@ void turn(struct Game *game)
             last_joy_input = joy_input;
         }
 
-        if (is_rolling_dice && frame % 10 == 0)
+        if (is_rolling_dice && frame % 5 == 0)
         {
             roll_dice(game);
             need_window_redraw = true;
             nb_dice_roll++;
 
-            if (nb_dice_roll >= 1) // 20
+            if (nb_dice_roll >= 20)
             {
                 is_rolling_dice = false;
             }
@@ -202,13 +203,16 @@ void turn(struct Game *game)
         else if (is_choosing_action)
         {
             struct Token *player_token;
+            struct Token *opponant_tokens;
             if (game->player_turn == 0)
             {
                 player_token = &game->player1_tokens[selected_action_index];
+                opponant_tokens = game->player2_tokens;
             }
             else
             {
                 player_token = &game->player2_tokens[selected_action_index];
+                opponant_tokens = game->player1_tokens;
             }
 
             if (frame % 40 == 0)
@@ -230,7 +234,21 @@ void turn(struct Game *game)
 
             if (joy_input & J_A && !(last_joy_input & J_A))
             {
-                player_token->position = actions[selected_action_index];
+                played_action = actions[selected_action_index];
+                player_token->position = played_action;
+                if (player_token->position > 4 && player_token->position < 13 && player_token->position != 8)
+                {
+                    for (uint8_t opponant_token_index = 0; opponant_token_index < NB_TOKEN_PER_PLAYER; opponant_token_index++)
+                    {
+                        struct Token *opponant_token = &opponant_tokens[opponant_token_index];
+                        if (opponant_token->position == player_token->position)
+                        {
+                            opponant_token->position = 0;
+                            move_token_on_waiting_area(opponant_token, !game->player_turn, opponant_token_index);
+                            break;
+                        }
+                    }
+                }
                 move_token_on_board(player_token, game->player_turn);
                 is_end_of_turn = true;
             }
@@ -280,15 +298,19 @@ void turn(struct Game *game)
         frame++;
         vsync();
     }
+    return played_action;
 }
 
 void main(void)
 {
+    set_win_tiles(0, 0, 6, 14, map_window);
+    move_win(116, 8);
+    SHOW_WIN;
+
     initrand(DIV_REG);
+    setup_font();
     while (1)
     {
-        setup_font();
-
         init_tokens(ur_tile_token_p1_tiles, ur_tile_token_p2_tiles, p1_tokens, p2_tokens);
 
         setup_window();
@@ -324,10 +346,14 @@ void main(void)
         do
         {
             game.player_turn = !game.player_turn;
-            turn(&game);
-            delay(500);
+            uint8_t played_action = turn(&game);
+            if (played_action == 4 || played_action == 8 || played_action == 14)
+            {
+                game.player_turn = !game.player_turn;
+            }
+            delay(1);
 
-        } while (is_game_over(&game));
+        } while (!is_game_over(&game));
 
         delay(100);
         display_game_over(game.player_turn);

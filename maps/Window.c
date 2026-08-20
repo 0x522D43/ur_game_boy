@@ -1,0 +1,140 @@
+#include <gb/gb.h>
+#include <stdint.h>
+
+#include "Window.h"
+
+const uint8_t skip_message[6] = {0x00, 0x1D, 0x15, 0x13, 0x1A, 0x00}; // SKIP
+
+uint8_t map_window[6 * 14] = {
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    // DICE
+    0x00,
+    0x0E,
+    0x13,
+    0x0D,
+    0x0F,
+    0x00,
+
+    0x00,
+    0x25,
+    0x00,
+    0x00,
+    0x00,
+    0x27,
+
+    0x00,
+    0x00,
+    0x00,
+    0x01, // 0
+    0x00,
+    0x00,
+
+    0x00,
+    0x26,
+    0x00,
+    0x00,
+    0x00,
+    0x28,
+
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    // TURN
+    0x00,
+    0x1E,
+    0x1F,
+    0x1C,
+    0x18,
+    0x00,
+
+    0x00,
+    0x25,
+    0x00,
+    0x00,
+    0x00,
+    0x27,
+
+    0x00,
+    0x00,
+    0x1A, // P
+    0x00,
+    0x02, // 1
+    0x00,
+
+    0x00,
+    0x26,
+    0x00,
+    0x00,
+    0x00,
+    0x28,
+
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+    0x00,
+};
+
+void setup_window(void)
+{
+    set_win_tiles(0, 0, 6, 14, map_window);
+    move_win(116, 8);
+}
+
+void show_dice_value(uint8_t *window, uint8_t dice_value)
+{
+    window[DICE_WINDOW_LOCATION] = dice_value + DICE_VALUE_TILE_OFFSET;
+}
+
+void show_player_turn(uint8_t *window, bool player)
+{
+    window[PLAYER_WINDOW_LOCATION] = player + 2;
+}
+
+void show_skip_turn(uint8_t *window, bool display)
+{
+    if (display)
+    {
+        for (int j = 0; j < WINDOW_WIDTH; j++)
+        {
+            window[SKIP_WINDOW_LOCATION + j] = skip_message[j];
+        }
+    }
+    else
+    {
+        for (int j = 0; j < WINDOW_WIDTH; j++)
+        {
+            window[SKIP_WINDOW_LOCATION + j] = 0x00;
+        }
+    }
+}

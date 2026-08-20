@@ -6,7 +6,11 @@
                 "${workspaceFolder}/**",
                 "/opt/gbdk/**"
             ],
-            "defines": [],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
             "compilerPath": "/opt/gbdk/bin/lcc",
             "cStandard": "c23"
         }

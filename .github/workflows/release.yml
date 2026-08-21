@@ -3,7 +3,7 @@ name: Build and release
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
   workflow_dispatch:
 
 permissions:
@@ -33,9 +33,9 @@ jobs:
       - name: Package ROM
         run: |
           mkdir -p dist
-          cp main.gb dist/main.gb
-          sha256sum main.gb > dist/main.gb.sha256
-          zip -j "dist/ur-game-boy-${GITHUB_REF_NAME}.zip" main.gb
+          cp ur-game-boy.gb dist/ur-game-boy.gb
+          sha256sum ur-game-boy.gb > dist/ur-game-boy.gb.sha256
+          zip -j "dist/ur-game-boy-${GITHUB_REF_NAME}.zip" ur-game-boy.gb
 
       - name: Create GitHub release
         if: startsWith(github.ref, 'refs/tags/v')
@@ -43,6 +43,6 @@ jobs:
         with:
           generate_release_notes: true
           files: |
-            dist/main.gb
-            dist/main.gb.sha256
+            dist/ur-game-boy.gb
+            dist/ur-game-boy.gb.sha256
             dist/ur-game-boy-${{ github.ref_name }}.zip

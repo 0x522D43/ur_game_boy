@@ -11,19 +11,26 @@
             "type": "shell",
             "label": "clean project",
             "command": "make",
-            "args": ["clean"]
+            "args": [
+                "clean"
+            ]
         },
         {
             "type": "shell",
             "label": "remake project",
             "dependsOrder": "sequence",
-            "dependsOn": ["clean project", "make project"]
+            "dependsOn": [
+                "clean project",
+                "make project"
+            ]
         },
         {
             "type": "shell",
             "label": "gearboy",
             "command": "gearboy",
-            "args": ["main.gb"]
+            "args": [
+                "ur-game-boy.gb"
+            ]
         }
     ]
 }

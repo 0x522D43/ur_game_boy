@@ -11,8 +11,8 @@ This is an early prototype with the Royal Game of Ur rules implemented. Addition
 The project is intended to run in the VS Code Dev Container, which provides GBDK-4, `png2asset`, GNU Make, and Gearboy.
 
 ```sh
-make              # Build main.gb
-gearboy main.gb   # Run the ROM
+make                 # Build ur-game-boy.gb
+gearboy ur-game-boy.gb   # Run the ROM
 make clean        # Remove generated build files
 ```
 

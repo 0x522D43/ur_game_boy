@@ -3,8 +3,6 @@
 #include <gb/gb.h>
 #include <rand.h>
 
-#include <stdio.h>
-
 #include "../maps/Window.h"
 #include "Game.h"
 #include "Token.h"

@@ -1,5 +1,4 @@
 #include <gb/gb.h>
-#include <stdio.h>
 #include <gbdk/font.h>
 #include <stdint.h>
 #include <stdbool.h>

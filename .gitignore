@@ -12,3 +12,5 @@
 *.noi
 *.rst
 .gitconfig
+assets/*.c
+assets/*.h

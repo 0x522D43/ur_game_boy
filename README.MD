@@ -18,13 +18,14 @@ make clean        # Remove generated build files
 
 The Makefile expects `GBDKDIR` to be set by the container. Reopen the project in the Dev Container if it is missing.
 
+Asset `.c` and `.h` files are generated automatically from the PNG files by `make` and are ignored by Git. `make clean` removes them as well as the ROM build outputs.
+
 ## Next steps
 
 - Add sound effects and music.
-- Add a GitHub Actions pipeline that builds and publishes `main.gb`.
-- Keep generated asset `.c` and `.h` files out of Git. Generate them during the build with `png2asset` from the source PNG files.
 - Add a main menu.
 - Add game modes for VS CPU and two players.
+- Add automated gameplay tests.
 
 ## Credits
 

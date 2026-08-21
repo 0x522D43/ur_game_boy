@@ -20,13 +20,6 @@ The Makefile expects `GBDKDIR` to be set by the container. Reopen the project in
 
 Asset `.c` and `.h` files are generated automatically from the PNG files by `make` and are ignored by Git. `make clean` removes them as well as the ROM build outputs.
 
-## Next steps
-
-- Add sound effects and music.
-- Add a main menu.
-- Add game modes for VS CPU and two players.
-- Add automated gameplay tests.
-
 ## Credits
 
 The game is based on the ancient Royal Game of Ur. See the [Wikipedia article](https://en.wikipedia.org/wiki/Royal_Game_of_Ur) for historical background and rules.
